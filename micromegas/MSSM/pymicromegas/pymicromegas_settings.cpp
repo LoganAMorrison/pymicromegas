@@ -95,7 +95,7 @@ void define_settings(pybind11::class_<MicromegasSettings> *settings) {
 
   settings->def(
       py::init<bool, bool, bool, bool, bool, bool, bool, bool, bool, bool, bool,
-               bool, bool, bool, bool, bool, bool, double>(),
+               bool, bool, bool, bool, bool, bool, double, bool>(),
       settings_init_doc.c_str(), py::arg("relic_density") = true,
       py::arg("masses") = true, py::arg("gmuon") = true, py::arg("bsg") = false,
       py::arg("bsmumu") = false, py::arg("btaunu") = false,
