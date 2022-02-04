@@ -27,6 +27,7 @@ class MicromegasSettings {
   bool p_monojet = false;
   bool p_fast = true;
   double p_beps = 1e-4;
+  bool p_debug = false;
 
 public:
   explicit MicromegasSettings(
@@ -37,7 +38,8 @@ public:
       bool t_nucleon_amplitudes = false,
       bool t_direct_detection_pvalues = false, bool t_z_invisible = false,
       bool t_lsp_nlsp_lep = false, bool t_z_prime_limits = false,
-      bool t_monojet = false, bool t_fast = true, double t_beps = 1e-4)
+      bool t_monojet = false, bool t_fast = true, double t_beps = 1e-4,
+      bool debug = false)
       : p_relic_density(t_relic_density), p_masses(t_masses), p_gmuon(t_gmuon),
         p_bsg(t_bsg), p_bsmumu(t_bsmumu), p_btaunu(t_btaunu),
         p_deltarho(t_deltarho), p_rl23(t_rl23),
@@ -46,7 +48,7 @@ public:
         p_direct_detection_pvalues(t_direct_detection_pvalues),
         p_z_invisible(t_z_invisible), p_lsp_nlsp_lep(t_lsp_nlsp_lep),
         p_z_prime_limits(t_z_prime_limits), p_monojet(t_monojet),
-        p_fast(t_fast), p_beps(t_beps) {}
+        p_fast(t_fast), p_beps(t_beps), p_debug(debug) {}
 
   // clang-format off
   [[nodiscard]] auto get_relic_density() const -> const bool& {return p_relic_density ;}
@@ -67,6 +69,7 @@ public:
   [[nodiscard]] auto get_monojet() const -> const bool& {return p_monojet ;}
   [[nodiscard]] auto get_fast() const -> const bool& {return p_fast ;}
   [[nodiscard]] auto get_beps() const -> const double& {return p_beps ;}
+  [[nodiscard]] auto get_debug() const -> const bool& {return p_debug ;}
 
   auto set_relic_density(bool val) -> void {p_relic_density=val ;}
   auto set_masses(bool val) -> void {p_masses=val ;}
@@ -86,6 +89,7 @@ public:
   auto set_monojet(bool val) -> void {p_monojet=val ;}
   auto set_fast(bool val) -> void {p_fast=val ;}
   auto set_beps(double val) -> void {p_beps=val ;}
+  auto set_debug(bool val) -> void {p_debug=val ;}
 
   // clang-format on
 };

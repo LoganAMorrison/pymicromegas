@@ -1,0 +1,10 @@
+# These files/folders are generated at build time
+Config/config.h
+Config/stamp-*
+src/.deps/
+src/supermodel/supermodel/.deps/
+src/supermodel/tsil/.deps/
+config.log
+config.status
+libtool
+ver

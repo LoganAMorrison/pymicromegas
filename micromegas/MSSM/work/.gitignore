@@ -1,0 +1,6 @@
+# These files/folders are generated at build time
+bin/
+autoprot.h
+path.c
+VandP.c
+work_aux.a

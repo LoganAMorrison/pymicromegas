@@ -1,0 +1,13 @@
+# These files are generated at build time
+calc
+event2lhe
+event_mixer
+events2tab
+Int
+lhapdf2pdt
+lhe2tab
+make_VandP
+plot_view
+s_calchep
+show_distr
+sum_distr

@@ -23,6 +23,7 @@ void define_settings(pybind11::class_<MicromegasSettings> *settings) {
   static const std::string settings_doc_monojet = "If true, micrOMEGAs will compute confidence-limit on\nσ(proton + proton → N1 + N2 + jet) from an 8 TeV CMS mono-jet analysis.";
   static const std::string settings_doc_fast = "If true, micrOMEGAs will compute relic density using a approximation\naccurate to about 2% rather than use a more accurate (but much slower)\nmethod.";
   static const std::string settings_doc_beps = "The criteria for including a given coannihilation channel.\nThe recommended value is 1e-4 <= beps <= 1e-6. beps=1 means only\nannihilation with the lightest odd particle are computed.";
+  static const std::string settings_doc_debug = "If true, debug/error messages will be printed.";
   // clang-format on
 
   static const std::string settings_init_doc = R"pbdoc(
@@ -88,6 +89,8 @@ void define_settings(pybind11::class_<MicromegasSettings> *settings) {
         The recommended value is 1e-4 <= beps <= 1e-6. beps=1 means only
         annihilation with the lightest odd particle are computed.
         Default is 1e-4.
+    debug: bool, optional
+        If true, debug/error messages will be printed. Default is False.
 )pbdoc";
 
   settings->def(
@@ -102,7 +105,7 @@ void define_settings(pybind11::class_<MicromegasSettings> *settings) {
       py::arg("direct_detection_pvalues") = false,
       py::arg("z_invisible") = false, py::arg("lsp_nlsp_lep") = false,
       py::arg("z_prime_limits") = false, py::arg("monojet") = false,
-      py::arg("fast") = true, py::arg("beps") = 1e-4);
+      py::arg("fast") = true, py::arg("beps") = 1e-4, py::arg("debug") = false);
 
   // clang-format off
   settings->def_property("relic_density", &MicromegasSettings::get_relic_density, &MicromegasSettings::set_relic_density,settings_doc_relic_density.c_str());
@@ -123,5 +126,6 @@ void define_settings(pybind11::class_<MicromegasSettings> *settings) {
   settings->def_property("monojet", &MicromegasSettings::get_monojet, &MicromegasSettings::set_monojet,settings_doc_monojet.c_str());
   settings->def_property("fast", &MicromegasSettings::get_fast, &MicromegasSettings::set_fast,settings_doc_fast.c_str());
   settings->def_property("beps", &MicromegasSettings::get_beps, &MicromegasSettings::set_beps,settings_doc_beps.c_str());
+  settings->def_property("debug", &MicromegasSettings::get_debug, &MicromegasSettings::set_debug,settings_doc_debug.c_str());
   // clang-format on
 }

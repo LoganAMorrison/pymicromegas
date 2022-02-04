@@ -44,7 +44,9 @@ void execute(MicromegasResults *results, const MicromegasSettings &settings,
     Micromegas::sort_odd_particles();
   } catch (const std::exception &e) {
     results->set_nans();
-    py::print(e.what());
+    if (settings.get_debug()) {
+      py::print(e.what());
+    }
   }
 
   execute(results, settings);
@@ -64,7 +66,9 @@ void execute(MicromegasResults *results, const MicromegasSettings &settings,
     micromegas::Micromegas::sort_odd_particles();
   } catch (const std::exception &e) {
     results->set_nans();
-    py::print(e.what());
+    if (settings.get_debug()) {
+      py::print(e.what());
+    }
   }
 
   execute(results, settings);
