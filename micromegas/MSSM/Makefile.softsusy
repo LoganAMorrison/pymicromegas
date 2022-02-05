@@ -52,7 +52,7 @@ PYMICROMEGAS_FFLAGS = -fPIC -faligned-new -fvisibility=hidden
 
 all: softsusy
 
-softsusy: libs work/bin build_softsusy
+softsusy: build_softsusy
 	$(DLSET) $(CXX) -O3 -Wall -shared -std=c++11 $(PYMICROMEGAS_FFLAGS) $(PYMICROMEGAS_INCLUDES) $(PY_MICROMEGAS_SOFTSUSY_SOURCES) -o softsusy$(EXTENSION) $(PYMICROMEGAS_LINKS)
 
 # These build rules do the following:
@@ -60,7 +60,7 @@ softsusy: libs work/bin build_softsusy
 #		2. Build a main executable for testing
 #		3. Run the main executable
 
-build_softsusy: libs work/bin
+build_softsusy:
 	# MicroMEGAs seems to really want v4.1.7 (which has a bug). So I've pre-extracted the source and fix the bug.
 	# $(MAKE) -C ../Packages --file=SSUSY.makef VERSION=4.1.12
 	# Make the main executable

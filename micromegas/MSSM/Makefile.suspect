@@ -52,7 +52,7 @@ PYMICROMEGAS_FFLAGS = -fPIC -faligned-new -fvisibility=hidden
 
 all: suspect
 
-suspect: libs work/bin build_suspect
+suspect: build_suspect
 	$(DLSET) $(CXX) -O3 -Wall -shared -std=c++11 $(PYMICROMEGAS_FFLAGS) $(PYMICROMEGAS_INCLUDES) $(PY_MICROMEGAS_SUSPECT_SOURCES) -o suspect$(EXTENSION) $(PYMICROMEGAS_LINKS)
 
 # These build rules do the following:
@@ -60,7 +60,7 @@ suspect: libs work/bin build_suspect
 #		2. Build a main executable for testing
 #		3. Run the main executable
 
-build_suspect: libs work/bin
+build_suspect:
 	# Make the main executable
 	$(MAKE) main=main_suspect.cpp
 	# Run it for good measure

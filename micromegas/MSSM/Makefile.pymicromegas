@@ -70,10 +70,10 @@ PYMICROMEGAS_FFLAGS = -fPIC -faligned-new -fvisibility=hidden
 
 all: pymicromegas spheno micromegas_api
 
-pymicromegas: libs work/bin
+pymicromegas:
 	$(DLSET) $(CXX) -O3 -Wall -shared -std=c++11 $(PYMICROMEGAS_FFLAGS) $(PYMICROMEGAS_INCLUDES) $(PY_MICROMEGAS_SOURCES) -o pymicromegas$(EXTENSION) $(PYMICROMEGAS_LINKS)
 
-spheno: libs work/bin build_spheno
+spheno: build_spheno
 	$(DLSET) $(CXX) -O3 -Wall -shared -std=c++11 $(PYMICROMEGAS_FFLAGS) $(PYMICROMEGAS_INCLUDES) $(PY_MICROMEGAS_SPHENO_SOURCES) -o spheno$(EXTENSION) $(PYMICROMEGAS_LINKS)
 
 micromegas_api: libs work/bin build_spheno
@@ -84,7 +84,7 @@ micromegas_api: libs work/bin build_spheno
 #		2. Build a main executable for testing
 #		3. Run the main executable
 
-build_spheno: libs work/bin
+build_spheno:
 	# I pre-extracted this too since we know we will be using it.
 	# $(MAKE) -C ../Packages --file=SPHENO.makef VERSION=4.0.3
 	# Make the main executable
