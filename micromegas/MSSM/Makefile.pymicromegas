@@ -76,7 +76,7 @@ pymicromegas:
 spheno: build_spheno
 	$(DLSET) $(CXX) -O3 -Wall -shared -std=c++11 $(PYMICROMEGAS_FFLAGS) $(PYMICROMEGAS_INCLUDES) $(PY_MICROMEGAS_SPHENO_SOURCES) -o spheno$(EXTENSION) $(PYMICROMEGAS_LINKS)
 
-micromegas_api: libs work/bin build_spheno
+micromegas_api: build_spheno
 	$(DLSET) $(CXX) -O3 -Wall -shared -std=c++11 $(PYMICROMEGAS_FFLAGS) $(PYMICROMEGAS_INCLUDES) $(MICROMEGAS_INTERFACE_SOURCES) -o micromegas$(EXTENSION) $(PYMICROMEGAS_LINKS)
 
 # These build rules do the following:
