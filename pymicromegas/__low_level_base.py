@@ -1,7 +1,7 @@
 from abc import ABCMeta, abstractmethod
 from typing import Tuple
+import importlib
 
-from . import micromegas as low_level
 from .micromegas import DirectDetectionAmps, DirectDetectionResults
 
 
@@ -10,7 +10,7 @@ class LowLevelMicromegasBase:
     __metaclass__ = ABCMeta
 
     def __init__(self) -> None:
-        pass
+        self._low_level = importlib.import_module("pymicromegas.micromegas")
 
     @abstractmethod
     def _initialize(self):
@@ -64,7 +64,7 @@ class LowLevelMicromegasBase:
         >>> neutron_sd_cs = pre * amps.neutron_sd[0]**2
         """
         self._initialize()
-        return low_level.nucleon_amplitudes_cdm1()
+        return self._low_level.nucleon_amplitudes_cdm1()
 
     def nucleon_amplitudes_cdm2(self) -> DirectDetectionAmps:
         """
@@ -114,7 +114,7 @@ class LowLevelMicromegasBase:
         >>> neutron_sd_cs = pre * amps.neutron_sd[0]**2
         """
         self._initialize()
-        return low_level.nucleon_amplitudes_cdm2()
+        return self._low_level.nucleon_amplitudes_cdm2()
 
     def direct_detection_factor(
         self, pval: float, maxwell: bool = True
@@ -137,8 +137,8 @@ class LowLevelMicromegasBase:
         """
         self._initialize()
         if maxwell:
-            return low_level.direct_detection_factor_maxwell(pval)
-        return low_level.direct_detection_factor_shmpp(pval)
+            return self._low_level.direct_detection_factor_maxwell(pval)
+        return self._low_level.direct_detection_factor_shmpp(pval)
 
     def direct_detection_pval(self, maxwell: bool = True) -> DirectDetectionResults:
         """
@@ -154,8 +154,8 @@ class LowLevelMicromegasBase:
         """
         self._initialize()
         if maxwell:
-            return low_level.direct_detection_pval_maxwell()
-        return low_level.direct_detection_pval_shmpp()
+            return self._low_level.direct_detection_pval_maxwell()
+        return self._low_level.direct_detection_pval_shmpp()
 
     def xenon1T_90(self, mass: float) -> float:
         """
@@ -172,7 +172,7 @@ class LowLevelMicromegasBase:
         cs: float
             Constraint on cross-section in cm^2.
         """
-        return low_level.xenon1T_90(mass)
+        return self._low_level.xenon1T_90(mass)
 
     def xenon1T_sdp_90(self, mass: float) -> float:
         """
@@ -190,7 +190,7 @@ class LowLevelMicromegasBase:
         cs: float
             Constraint on cross-section in cm^2.
         """
-        return low_level.xenon1T_sdp_90(mass)
+        return self._low_level.xenon1T_sdp_90(mass)
 
     def xenon1T_sdn_90(self, mass: float) -> float:
         """
@@ -208,7 +208,7 @@ class LowLevelMicromegasBase:
         cs: float
             Constraint on cross-section in cm^2.
         """
-        return low_level.xenon1T_sdn_90(mass)
+        return self._low_level.xenon1T_sdn_90(mass)
 
     def darkside50_90(self, mass: float) -> float:
         """
@@ -225,10 +225,10 @@ class LowLevelMicromegasBase:
         cs: float
             Constraint on cross-section in cm^2.
         """
-        return low_level.darkside50_90(mass)
+        return self._low_level.darkside50_90(mass)
 
     def darkside50_90_nob(self, mass: float) -> float:
-        return low_level.darkside50_90_nob(mass)
+        return self._low_level.darkside50_90_nob(mass)
 
     def cresst3_90(self, mass: float) -> float:
         """
@@ -245,7 +245,7 @@ class LowLevelMicromegasBase:
         cs: float
             Constraint on cross-section in cm^2.
         """
-        return low_level.cresst3_90(mass)
+        return self._low_level.cresst3_90(mass)
 
     def cresst3_sdn_90(self, mass: float) -> float:
         """
@@ -263,7 +263,7 @@ class LowLevelMicromegasBase:
         cs: float
             Constraint on cross-section in cm^2.
         """
-        return low_level.cresst3_sdn_90(mass)
+        return self._low_level.cresst3_sdn_90(mass)
 
     def pico60_90(self, mass: float) -> float:
         """
@@ -280,7 +280,7 @@ class LowLevelMicromegasBase:
         cs: float
             Constraint on cross-section in cm^2.
         """
-        return low_level.pico60_90(mass)
+        return self._low_level.pico60_90(mass)
 
     def pico60_sdp_90(self, mass: float) -> float:
         """
@@ -298,35 +298,35 @@ class LowLevelMicromegasBase:
         cs: float
             Constraint on cross-section in cm^2.
         """
-        return low_level.pico60_sdp_90(mass)
+        return self._low_level.pico60_sdp_90(mass)
 
     def cdm1(self) -> str:
         """
         Name of the 1st DM particle.
         """
         self._initialize()
-        return low_level.cdm1()
+        return self._low_level.cdm1()
 
     def cdm2(self) -> str:
         """
         Name of the 2nd DM particle.
         """
         self._initialize()
-        return low_level.cdm2()
+        return self._low_level.cdm2()
 
     def mcdm1(self) -> float:
         """
         Mass of the 1st DM particle.
         """
         self._initialize()
-        return low_level.mcdm1()
+        return self._low_level.mcdm1()
 
     def mcdm2(self) -> float:
         """
         Mass of the 2nd DM particle.
         """
         self._initialize()
-        return low_level.mcdm2()
+        return self._low_level.mcdm2()
 
     def gmuon(self) -> float:
         """
@@ -334,7 +334,7 @@ class LowLevelMicromegasBase:
         magnetic moment of the muon.
         """
         self._initialize()
-        return low_level.mssm_gmuon()
+        return self._low_level.mssm_gmuon()
 
     def deltarho(self) -> float:
         """
@@ -344,7 +344,7 @@ class LowLevelMicromegasBase:
         heavy gluino limit
         """
         self._initialize()
-        return low_level.mssm_deltarho()
+        return self._low_level.mssm_deltarho()
 
     def bsgnlo(self) -> Tuple[float, float]:
         """
@@ -353,7 +353,7 @@ class LowLevelMicromegasBase:
         especially important for high tan β. SMbsg gives the SM contribution.
         """
         self._initialize()
-        return low_level.mssm_bsgnlo()
+        return self._low_level.mssm_bsgnlo()
 
     def bsmumu(self) -> float:
         """
@@ -363,7 +363,7 @@ class LowLevelMicromegasBase:
         account.
         """
         self._initialize()
-        return low_level.mssm_bsmumu()
+        return self._low_level.mssm_bsmumu()
 
     def btaunu(self) -> float:
         """
@@ -371,7 +371,7 @@ class LowLevelMicromegasBase:
         B+ → τ+ντ.
         """
         self._initialize()
-        return low_level.mssm_btaunu()
+        return self._low_level.mssm_btaunu()
 
     def rl23(self) -> float:
         """
@@ -379,7 +379,7 @@ class LowLevelMicromegasBase:
         charged higgs contribution.
         """
         self._initialize()
-        return low_level.mssm_rl23()
+        return self._low_level.mssm_rl23()
 
     def d_taunu_and_munu(self) -> Tuple[float, float]:
         """
@@ -387,7 +387,7 @@ class LowLevelMicromegasBase:
         branching ratio for D+s →μ+νμ.
         """
         self._initialize()
-        return low_level.mssm_d_taunu_and_munu()
+        return self._low_level.mssm_d_taunu_and_munu()
 
     def masslimits(self) -> float:
         """
@@ -397,7 +397,7 @@ class LowLevelMicromegasBase:
         is included.
         """
         self._initialize()
-        return low_level.mssm_masslimits()
+        return self._low_level.mssm_masslimits()
 
     def relic_density(
         self, fast: bool = True, beps: float = 1e-4
@@ -422,7 +422,7 @@ class LowLevelMicromegasBase:
           Scaled dark matter freeze-out temperature: xᶠ = mᵡ/Tᶠ.
         """
         self._initialize()
-        return low_level.relic_density(fast, beps)
+        return self._low_level.relic_density(fast, beps)
 
     def z_invisible(self) -> bool:
         """
@@ -433,7 +433,7 @@ class LowLevelMicromegasBase:
         the neutral LSP is its own antiparticle or not.
         """
         self._initialize()
-        return low_level.z_invisible()
+        return self._low_level.z_invisible()
 
     def lsp_nlsp_lep(self) -> Tuple[float, float]:
         """
@@ -442,7 +442,7 @@ class LowLevelMicromegasBase:
         dealing with Z′ constraints cannot test the given scenario.
         """
         self._initialize()
-        return low_level.lsp_nlsp_lep()
+        return self._low_level.lsp_nlsp_lep()
 
     def z_prime_limits(self) -> bool:
         """
@@ -459,7 +459,7 @@ class LowLevelMicromegasBase:
         LSP and a Z boson.
         """
         self._initialize()
-        return low_level.z_prime_limits()
+        return self._low_level.z_prime_limits()
 
     def monojet(self) -> float:
         """
@@ -471,196 +471,196 @@ class LowLevelMicromegasBase:
         constraining one.
         """
         self._initialize()
-        return low_level.monojet()
+        return self._low_level.monojet()
 
     def mass_left_selectron(self) -> float:
         """
         Compute the left-handed Selectron mass.
         """
-        return low_level.find_val("MSeL")
+        return self._low_level.find_val("MSeL")
 
     def mass_right_selectron(self) -> float:
         """
         Compute the right-handed Selectron mass.
         """
-        return low_level.find_val("MSeR")
+        return self._low_level.find_val("MSeR")
 
     def mass_electron_sneutrino(self) -> float:
         """
         Compute the electron Snuetrino mass.
         """
-        return low_level.find_val("MSne")
+        return self._low_level.find_val("MSne")
 
     def mass_left_smuon(self) -> float:
         """
         Compute the left-handed smuon mass.
         """
-        return low_level.find_val("MSmL")
+        return self._low_level.find_val("MSmL")
 
     def mass_right_smuon(self) -> float:
         """
         Compute the right-handed smuon mass.
         """
-        return low_level.find_val("MSmR")
+        return self._low_level.find_val("MSmR")
 
     def mass_muon_sneutrino(self) -> float:
         """
         Compute the muon snuetrino mass.
         """
-        return low_level.find_val("MSnm")
+        return self._low_level.find_val("MSnm")
 
     def mass_stau1(self) -> float:
         """
         Compute the light stau mass.
         """
-        return low_level.find_val("MSl1")
+        return self._low_level.find_val("MSl1")
 
     def mass_stau2(self) -> float:
         """
         Compute the heavy stau mass.
         """
-        return low_level.find_val("MSl2")
+        return self._low_level.find_val("MSl2")
 
     def mass_stau_neutrino(self) -> float:
         """
         Compute the tau snuetrino mass.
         """
-        return low_level.find_val("MSnl")
+        return self._low_level.find_val("MSnl")
 
     def mass_left_up_squark(self) -> float:
         """
         Compute the left-handed up-squark mass.
         """
-        return low_level.find_val("MSuL")
+        return self._low_level.find_val("MSuL")
 
     def mass_right_up_squark(self) -> float:
         """
         Compute the right-handed up-squark mass.
         """
-        return low_level.find_val("MSuR")
+        return self._low_level.find_val("MSuR")
 
     def mass_left_down_squark(self) -> float:
         """
         Compute the left-handed down-squark mass.
         """
-        return low_level.find_val("MSdL")
+        return self._low_level.find_val("MSdL")
 
     def mass_right_down_squark(self) -> float:
         """
         Compute the right-handed down-squark mass.
         """
-        return low_level.find_val("MSdR")
+        return self._low_level.find_val("MSdR")
 
     def mass_left_charm_squark(self) -> float:
         """
         Compute the left-handed charm-squark mass.
         """
-        return low_level.find_val("MScL")
+        return self._low_level.find_val("MScL")
 
     def mass_right_charm_squark(self) -> float:
         """
         Compute the right-handed charm-squark mass.
         """
-        return low_level.find_val("MScR")
+        return self._low_level.find_val("MScR")
 
     def mass_left_strange_squark(self) -> float:
         """
         Compute the left-handed strange-squark mass.
         """
-        return low_level.find_val("MSsL")
+        return self._low_level.find_val("MSsL")
 
     def mass_right_strange_squark(self) -> float:
         """
         Compute the right-handed strange-squark mass.
         """
-        return low_level.find_val("MSsR")
+        return self._low_level.find_val("MSsR")
 
     def mass_top_squark1(self) -> float:
         """
         Compute the light top-squark mass.
         """
-        return low_level.find_val("MSt1")
+        return self._low_level.find_val("MSt1")
 
     def mass_top_squark2(self) -> float:
         """
         Compute the heavy top-squark mass.
         """
-        return low_level.find_val("MSt2")
+        return self._low_level.find_val("MSt2")
 
     def mass_bottom_squark1(self) -> float:
         """
         Compute the light bottom-squark mass.
         """
-        return low_level.find_val("MSb1")
+        return self._low_level.find_val("MSb1")
 
     def mass_bottom_squark2(self) -> float:
         """
         Compute the heavy bottom-squark mass.
         """
-        return low_level.find_val("MSb2")
+        return self._low_level.find_val("MSb2")
 
     def mass_neutralino1(self) -> float:
         """
         Compute the 1st neutralino mass.
         """
-        return low_level.find_val("MNE1")
+        return self._low_level.find_val("MNE1")
 
     def mass_neutralino2(self) -> float:
         """
         Compute the 2nd neutralino mass.
         """
-        return low_level.find_val("MNE2")
+        return self._low_level.find_val("MNE2")
 
     def mass_neutralino3(self) -> float:
         """
         Compute the 3rd neutralino mass.
         """
-        return low_level.find_val("MNE3")
+        return self._low_level.find_val("MNE3")
 
     def mass_neutralino4(self) -> float:
         """
         Compute the 4th neutralino mass.
         """
-        return low_level.find_val("MNE4")
+        return self._low_level.find_val("MNE4")
 
     def mass_chargino1(self) -> float:
         """
         Compute the light chargino mass.
         """
-        return low_level.find_val("MC1")
+        return self._low_level.find_val("MC1")
 
     def mass_chargino2(self) -> float:
         """
         Compute the heavy chargino mass.
         """
-        return low_level.find_val("MC2")
+        return self._low_level.find_val("MC2")
 
     def mass_higgs(self) -> float:
         """
         Compute the SM Higgs boson mass.
         """
-        return low_level.find_val("Mh")
+        return self._low_level.find_val("Mh")
 
     def mass_higgs2(self) -> float:
         """
         Compute the 2nd Higgs boson mass.
         """
-        return low_level.find_val("MH")
+        return self._low_level.find_val("MH")
 
     def mass_pseudo_scal_higgs(self) -> float:
         """
         Compute the pseudo-scalar Higgs boson mass.
         """
-        return low_level.find_val("MH3")
+        return self._low_level.find_val("MH3")
 
     def mass_charged_higgs(self) -> float:
         """
         Compute the charged Higgs boson mass.
         """
-        return low_level.find_val("MHc")
+        return self._low_level.find_val("MHc")
 
     def mass_glunio(self) -> float:
         """
         Compute the gluino mass.
         """
-        return low_level.find_val("MSG")
+        return self._low_level.find_val("MSG")

@@ -8,7 +8,6 @@ from .pymicromegas import (
 )
 from .spheno import spheno
 from .suspect import suspect
-from . import micromegas as _low_level
 from .__low_level_base import LowLevelMicromegasBase as _LowLevelMicromegasBase
 
 try:
@@ -24,36 +23,36 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
     def __init__(self, params: EwsbParameters) -> None:
         self._params: EwsbParameters = params
         self._initialized = False
-        _low_level.assign_val("MG1", self._params.mg1)
-        _low_level.assign_val("MG2", self._params.mg2)
-        _low_level.assign_val("MG3", self._params.mg3)
-        _low_level.assign_val("Ml1", self._params.ml1)
-        _low_level.assign_val("Ml2", self._params.ml2)
-        _low_level.assign_val("Ml3", self._params.ml3)
-        _low_level.assign_val("Mr1", self._params.mr1)
-        _low_level.assign_val("Mr2", self._params.mr2)
-        _low_level.assign_val("Mr3", self._params.mr3)
-        _low_level.assign_val("Mq1", self._params.mq1)
-        _low_level.assign_val("Mq2", self._params.mq2)
-        _low_level.assign_val("Mq3", self._params.mq3)
-        _low_level.assign_val("Mu1", self._params.mu1)
-        _low_level.assign_val("Mu2", self._params.mu2)
-        _low_level.assign_val("Mu3", self._params.mu3)
-        _low_level.assign_val("Md1", self._params.md1)
-        _low_level.assign_val("Md2", self._params.md2)
-        _low_level.assign_val("Md3", self._params.md3)
-        _low_level.assign_val("mu", self._params.mu)
-        _low_level.assign_val("MH3", self._params.mh3)
-        _low_level.assign_val("tb", self._params.tb)
-        _low_level.assign_val("At", self._params.at)
-        _low_level.assign_val("Ab", self._params.ab)
-        _low_level.assign_val("Al", self._params.al)
+        self._low_level.assign_val("MG1", self._params.mg1)
+        self._low_level.assign_val("MG2", self._params.mg2)
+        self._low_level.assign_val("MG3", self._params.mg3)
+        self._low_level.assign_val("Ml1", self._params.ml1)
+        self._low_level.assign_val("Ml2", self._params.ml2)
+        self._low_level.assign_val("Ml3", self._params.ml3)
+        self._low_level.assign_val("Mr1", self._params.mr1)
+        self._low_level.assign_val("Mr2", self._params.mr2)
+        self._low_level.assign_val("Mr3", self._params.mr3)
+        self._low_level.assign_val("Mq1", self._params.mq1)
+        self._low_level.assign_val("Mq2", self._params.mq2)
+        self._low_level.assign_val("Mq3", self._params.mq3)
+        self._low_level.assign_val("Mu1", self._params.mu1)
+        self._low_level.assign_val("Mu2", self._params.mu2)
+        self._low_level.assign_val("Mu3", self._params.mu3)
+        self._low_level.assign_val("Md1", self._params.md1)
+        self._low_level.assign_val("Md2", self._params.md2)
+        self._low_level.assign_val("Md3", self._params.md3)
+        self._low_level.assign_val("mu", self._params.mu)
+        self._low_level.assign_val("MH3", self._params.mh3)
+        self._low_level.assign_val("tb", self._params.tb)
+        self._low_level.assign_val("At", self._params.at)
+        self._low_level.assign_val("Ab", self._params.ab)
+        self._low_level.assign_val("Al", self._params.al)
         super().__init__()
 
     def _initialize(self):
         if not self._initialized:
-            _low_level.mssm_ewsb()
-            _low_level.sort_odd_particles()
+            self._low_level.mssm_ewsb()
+            self._low_level.sort_odd_particles()
             self._initialized = True
 
     @property
@@ -63,7 +62,7 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
     @mg1.setter
     def mg1(self, val: float) -> None:
         self._params.mg1 = val
-        _low_level.assign_val("MG1", self._params.mg1)
+        self._low_level.assign_val("MG1", self._params.mg1)
         self._initialized = False
 
     @property
@@ -73,7 +72,7 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
     @mg2.setter
     def mg2(self, val: float) -> None:
         self._params.mg2 = val
-        _low_level.assign_val("MG2", self._params.mg2)
+        self._low_level.assign_val("MG2", self._params.mg2)
         self._initialized = False
 
     @property
@@ -83,7 +82,7 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
     @mg3.setter
     def mg3(self, val: float) -> None:
         self._params.mg3 = val
-        _low_level.assign_val("MG3", self._params.mg3)
+        self._low_level.assign_val("MG3", self._params.mg3)
         self._initialized = False
 
     @property
@@ -93,7 +92,7 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
     @ml1.setter
     def ml1(self, val: float) -> None:
         self._params.ml1 = val
-        _low_level.assign_val("Ml1", self._params.ml1)
+        self._low_level.assign_val("Ml1", self._params.ml1)
         self._initialized = False
 
     @property
@@ -103,7 +102,7 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
     @ml2.setter
     def ml2(self, val: float) -> None:
         self._params.ml2 = val
-        _low_level.assign_val("Ml2", self._params.ml2)
+        self._low_level.assign_val("Ml2", self._params.ml2)
         self._initialized = False
 
     @property
@@ -113,7 +112,7 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
     @ml3.setter
     def ml3(self, val: float) -> None:
         self._params.ml3 = val
-        _low_level.assign_val("Ml3", self._params.ml3)
+        self._low_level.assign_val("Ml3", self._params.ml3)
         self._initialized = False
 
     @property
@@ -123,7 +122,7 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
     @mr1.setter
     def mr1(self, val: float) -> None:
         self._params.mr1 = val
-        _low_level.assign_val("Mr1", self._params.mr1)
+        self._low_level.assign_val("Mr1", self._params.mr1)
         self._initialized = False
 
     @property
@@ -133,7 +132,7 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
     @mr2.setter
     def mr2(self, val: float) -> None:
         self._params.mr2 = val
-        _low_level.assign_val("Mr2", self._params.mr2)
+        self._low_level.assign_val("Mr2", self._params.mr2)
         self._initialized = False
 
     @property
@@ -143,7 +142,7 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
     @mr3.setter
     def mr3(self, val: float) -> None:
         self._params.mr3 = val
-        _low_level.assign_val("Mr3", self._params.mr3)
+        self._low_level.assign_val("Mr3", self._params.mr3)
         self._initialized = False
 
     @property
@@ -153,7 +152,7 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
     @mq1.setter
     def mq1(self, val: float) -> None:
         self._params.mq1 = val
-        _low_level.assign_val("Mq1", self._params.mq1)
+        self._low_level.assign_val("Mq1", self._params.mq1)
         self._initialized = False
 
     @property
@@ -163,7 +162,7 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
     @mq2.setter
     def mq2(self, val: float) -> None:
         self._params.mq2 = val
-        _low_level.assign_val("Mq2", self._params.mq2)
+        self._low_level.assign_val("Mq2", self._params.mq2)
         self._initialized = False
 
     @property
@@ -173,7 +172,7 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
     @mq3.setter
     def mq3(self, val: float) -> None:
         self._params.mq3 = val
-        _low_level.assign_val("Mq3", self._params.mq3)
+        self._low_level.assign_val("Mq3", self._params.mq3)
         self._initialized = False
 
     @property
@@ -183,7 +182,7 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
     @mu1.setter
     def mu1(self, val: float) -> None:
         self._params.mu1 = val
-        _low_level.assign_val("Mu1", self._params.mu1)
+        self._low_level.assign_val("Mu1", self._params.mu1)
         self._initialized = False
 
     @property
@@ -193,7 +192,7 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
     @mu2.setter
     def mu2(self, val: float) -> None:
         self._params.mu2 = val
-        _low_level.assign_val("Mu2", self._params.mu2)
+        self._low_level.assign_val("Mu2", self._params.mu2)
         self._initialized = False
 
     @property
@@ -203,7 +202,7 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
     @mu3.setter
     def mu3(self, val: float) -> None:
         self._params.mu3 = val
-        _low_level.assign_val("Mu3", self._params.mu3)
+        self._low_level.assign_val("Mu3", self._params.mu3)
         self._initialized = False
 
     @property
@@ -213,7 +212,7 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
     @md1.setter
     def md1(self, val: float) -> None:
         self._params.md1 = val
-        _low_level.assign_val("Md1", self._params.md1)
+        self._low_level.assign_val("Md1", self._params.md1)
         self._initialized = False
 
     @property
@@ -223,7 +222,7 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
     @md2.setter
     def md2(self, val: float) -> None:
         self._params.md2 = val
-        _low_level.assign_val("Md2", self._params.md2)
+        self._low_level.assign_val("Md2", self._params.md2)
         self._initialized = False
 
     @property
@@ -233,7 +232,7 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
     @md3.setter
     def md3(self, val: float) -> None:
         self._params.md3 = val
-        _low_level.assign_val("Md3", self._params.md3)
+        self._low_level.assign_val("Md3", self._params.md3)
         self._initialized = False
 
     @property
@@ -243,7 +242,7 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
     @mu.setter
     def mu(self, val: float) -> None:
         self._params.mu = val
-        _low_level.assign_val("mu", self._params.mu)
+        self._low_level.assign_val("mu", self._params.mu)
         self._initialized = False
 
     @property
@@ -253,7 +252,7 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
     @mh3.setter
     def mh3(self, val: float) -> None:
         self._params.mh3 = val
-        _low_level.assign_val("MH3", self._params.mh3)
+        self._low_level.assign_val("MH3", self._params.mh3)
         self._initialized = False
 
     @property
@@ -263,7 +262,7 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
     @tb.setter
     def tb(self, val: float) -> None:
         self._params.tb = val
-        _low_level.assign_val("tb", self._params.tb)
+        self._low_level.assign_val("tb", self._params.tb)
         self._initialized = False
 
     @property
@@ -273,7 +272,7 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
     @at.setter
     def at(self, val: float) -> None:
         self._params.at = val
-        _low_level.assign_val("At", self._params.at)
+        self._low_level.assign_val("At", self._params.at)
         self._initialized = False
 
     @property
@@ -283,7 +282,7 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
     @ab.setter
     def ab(self, val: float) -> None:
         self._params.ab = val
-        _low_level.assign_val("Ab", self._params.ab)
+        self._low_level.assign_val("Ab", self._params.ab)
         self._initialized = False
 
     @property
@@ -293,7 +292,7 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
     @al.setter
     def al(self, val: float) -> None:
         self._params.al = val
-        _low_level.assign_val("Al", self._params.al)
+        self._low_level.assign_val("Al", self._params.al)
         self._initialized = False
 
     @property
@@ -303,7 +302,7 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
     @au.setter
     def au(self, val: float) -> None:
         self._params.au = val
-        _low_level.assign_val("Au", self._params.au)
+        self._low_level.assign_val("Au", self._params.au)
         self._initialized = False
 
     @property
@@ -313,7 +312,7 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
     @ad.setter
     def ad(self, val: float) -> None:
         self._params.ad = val
-        _low_level.assign_val("Ad", self._params.ad)
+        self._low_level.assign_val("Ad", self._params.ad)
         self._initialized = False
 
     @property
@@ -323,7 +322,7 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
     @am.setter
     def am(self, val: float) -> None:
         self._params.am = val
-        _low_level.assign_val("Am", self._params.am)
+        self._low_level.assign_val("Am", self._params.am)
         self._initialized = False
 
     def verify_parameter_state(self, rtol=1e-5):
@@ -338,30 +337,30 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
             fdiff = frac_diff(val1, val2)
             assert fdiff <= rtol
 
-        assert verify(self._params.mg1, _low_level.find_val("MG1"))
-        assert verify(self._params.mg2, _low_level.find_val("MG2"))
-        assert verify(self._params.mg3, _low_level.find_val("MG3"))
-        assert verify(self._params.ml1, _low_level.find_val("Ml1"))
-        assert verify(self._params.ml2, _low_level.find_val("Ml2"))
-        assert verify(self._params.ml3, _low_level.find_val("Ml3"))
-        assert verify(self._params.mr1, _low_level.find_val("Mr1"))
-        assert verify(self._params.mr2, _low_level.find_val("Mr2"))
-        assert verify(self._params.mr3, _low_level.find_val("Mr3"))
-        assert verify(self._params.mq1, _low_level.find_val("Mq1"))
-        assert verify(self._params.mq2, _low_level.find_val("Mq2"))
-        assert verify(self._params.mq3, _low_level.find_val("Mq3"))
-        assert verify(self._params.mu1, _low_level.find_val("Mu1"))
-        assert verify(self._params.mu2, _low_level.find_val("Mu2"))
-        assert verify(self._params.mu3, _low_level.find_val("Mu3"))
-        assert verify(self._params.md1, _low_level.find_val("Md1"))
-        assert verify(self._params.md2, _low_level.find_val("Md2"))
-        assert verify(self._params.md3, _low_level.find_val("Md3"))
-        assert verify(self._params.mu, _low_level.find_val("mu"))
-        assert verify(self._params.mh3, _low_level.find_val("MH3"))
-        assert verify(self._params.tb, _low_level.find_val("tb"))
-        assert verify(self._params.at, _low_level.find_val("At"))
-        assert verify(self._params.ab, _low_level.find_val("Ab"))
-        assert verify(self._params.al, _low_level.find_val("Al"))
+        assert verify(self._params.mg1, self._low_level.find_val("MG1"))
+        assert verify(self._params.mg2, self._low_level.find_val("MG2"))
+        assert verify(self._params.mg3, self._low_level.find_val("MG3"))
+        assert verify(self._params.ml1, self._low_level.find_val("Ml1"))
+        assert verify(self._params.ml2, self._low_level.find_val("Ml2"))
+        assert verify(self._params.ml3, self._low_level.find_val("Ml3"))
+        assert verify(self._params.mr1, self._low_level.find_val("Mr1"))
+        assert verify(self._params.mr2, self._low_level.find_val("Mr2"))
+        assert verify(self._params.mr3, self._low_level.find_val("Mr3"))
+        assert verify(self._params.mq1, self._low_level.find_val("Mq1"))
+        assert verify(self._params.mq2, self._low_level.find_val("Mq2"))
+        assert verify(self._params.mq3, self._low_level.find_val("Mq3"))
+        assert verify(self._params.mu1, self._low_level.find_val("Mu1"))
+        assert verify(self._params.mu2, self._low_level.find_val("Mu2"))
+        assert verify(self._params.mu3, self._low_level.find_val("Mu3"))
+        assert verify(self._params.md1, self._low_level.find_val("Md1"))
+        assert verify(self._params.md2, self._low_level.find_val("Md2"))
+        assert verify(self._params.md3, self._low_level.find_val("Md3"))
+        assert verify(self._params.mu, self._low_level.find_val("mu"))
+        assert verify(self._params.mh3, self._low_level.find_val("MH3"))
+        assert verify(self._params.tb, self._low_level.find_val("tb"))
+        assert verify(self._params.at, self._low_level.find_val("At"))
+        assert verify(self._params.ab, self._low_level.find_val("Ab"))
+        assert verify(self._params.al, self._low_level.find_val("Al"))
 
 
 class LowLevelMicromegasSugra(_LowLevelMicromegasBase):
@@ -377,7 +376,7 @@ class LowLevelMicromegasSugra(_LowLevelMicromegasBase):
             m0 = self._params.m0
             tb = self._params.tb
             sgn = self._params.sgn
-            _low_level.mssm_sugra(
+            self._low_level.mssm_sugra(
                 tb,
                 mhf,
                 mhf,
@@ -399,7 +398,7 @@ class LowLevelMicromegasSugra(_LowLevelMicromegasBase):
                 m0,
                 m0,
             )
-            _low_level.sort_odd_particles()
+            self._low_level.sort_odd_particles()
             self._initialized = True
 
     @property
