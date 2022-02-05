@@ -3,6 +3,7 @@
 #include "results.hpp"
 #include "settings.hpp"
 #include "sugra.hpp"
+#include <cstdio>
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;
@@ -34,6 +35,10 @@ void execute(MicromegasResults *results, const MicromegasSettings &settings,
     throw py::error_already_set();
   }
 
+  if (!settings.get_debug()) {
+    std::freopen("/dev/null", "w", stdout);
+  }
+
   try {
     const double mhf = sugra.get_mhf();
     const double m0 = sugra.get_m0();
@@ -42,6 +47,7 @@ void execute(MicromegasResults *results, const MicromegasSettings &settings,
                            sugra.get_sgn(), m0, m0, m0, m0, m0, m0, m0, m0, m0,
                            m0, m0, m0);
     Micromegas::sort_odd_particles();
+    execute(results, settings);
   } catch (const std::exception &e) {
     results->set_nans();
     if (settings.get_debug()) {
@@ -49,7 +55,9 @@ void execute(MicromegasResults *results, const MicromegasSettings &settings,
     }
   }
 
-  execute(results, settings);
+  if (!settings.get_debug()) {
+    std::fclose(stdout);
+  }
 }
 
 void execute(MicromegasResults *results, const MicromegasSettings &settings,
@@ -60,18 +68,24 @@ void execute(MicromegasResults *results, const MicromegasSettings &settings,
     throw py::error_already_set();
   }
 
+  if (!settings.get_debug()) {
+    std::freopen("/dev/null", "w", stdout);
+  }
+
   try {
     ewsb.assign_all();
     Micromegas::mssm_ewsb();
     micromegas::Micromegas::sort_odd_particles();
+    execute(results, settings);
   } catch (const std::exception &e) {
     results->set_nans();
     if (settings.get_debug()) {
       py::print(e.what());
     }
   }
-
-  execute(results, settings);
+  if (!settings.get_debug()) {
+    std::fclose(stdout);
+  }
 }
 
 MicromegasResults execute(const MicromegasSettings &settings,
