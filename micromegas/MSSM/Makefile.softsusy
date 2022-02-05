@@ -38,56 +38,32 @@ endif
 # ---- Interface ------------------------------------------------------------
 # ===========================================================================
 
-PY_MICROMEGAS_SOURCES = \
-pymicromegas/micromegas.cpp \
-pymicromegas/pymicromegas.cpp \
-pymicromegas/pymicromegas_ewsb.cpp \
-pymicromegas/pymicromegas_results.cpp \
-pymicromegas/pymicromegas_settings.cpp \
-pymicromegas/pymicromegas_sugra.cpp \
-pymicromegas/results.cpp \
-
-PY_MICROMEGAS_SPHENO_SOURCES = \
-pymicromegas/pymicromegas_spheno.cpp \
-pymicromegas/micromegas_spheno.cpp \
+PY_MICROMEGAS_SOFTSUSY_SOURCES = \
+pymicromegas/pymicromegas_softsusy.cpp \
+pymicromegas/micromegas_softsusy.cpp \
 pymicromegas/micromegas.cpp \
 pymicromegas/results.cpp \
 pymicromegas/execute.cpp
-
-MICROMEGAS_INTERFACE_SOURCES = \
-pymicromegas/micromegas.cpp \
-pymicromegas/micromegas_interface.cpp \
-pymicromegas/micromegas_interface_dd.cpp \
-pymicromegas/micromegas_interface_pheno.cpp \
-pymicromegas/micromegas_interface_set_get.cpp \
-pymicromegas/micromegas_interface_utils.cpp \
-pymicromegas/micromegas_spheno.cpp
 
 PYMICROMEGAS_LINKS = -L/usr/local/lib -L/usr/lib $(SSS) $(lDL) -lm $(lQuad) -lpthread -lfmt
 PYMICROMEGAS_INCLUDES = $(PYBIND11_INC) -Ipymicromegas -I/usr/local/include -I/usr/include
 PYMICROMEGAS_FFLAGS = -fPIC -faligned-new -fvisibility=hidden 
 
 
-all: pymicromegas spheno micromegas_api
+all: softsusy
 
-pymicromegas: libs work/bin
-	$(DLSET) $(CXX) -O3 -Wall -shared -std=c++11 $(PYMICROMEGAS_FFLAGS) $(PYMICROMEGAS_INCLUDES) $(PY_MICROMEGAS_SOURCES) -o pymicromegas$(EXTENSION) $(PYMICROMEGAS_LINKS)
-
-spheno: libs work/bin build_spheno
-	$(DLSET) $(CXX) -O3 -Wall -shared -std=c++11 $(PYMICROMEGAS_FFLAGS) $(PYMICROMEGAS_INCLUDES) $(PY_MICROMEGAS_SPHENO_SOURCES) -o spheno$(EXTENSION) $(PYMICROMEGAS_LINKS)
-
-micromegas_api: libs work/bin build_spheno
-	$(DLSET) $(CXX) -O3 -Wall -shared -std=c++11 $(PYMICROMEGAS_FFLAGS) $(PYMICROMEGAS_INCLUDES) $(MICROMEGAS_INTERFACE_SOURCES) -o micromegas$(EXTENSION) $(PYMICROMEGAS_LINKS)
+softsusy: libs work/bin build_softsusy
+	$(DLSET) $(CXX) -O3 -Wall -shared -std=c++11 $(PYMICROMEGAS_FFLAGS) $(PYMICROMEGAS_INCLUDES) $(PY_MICROMEGAS_SOFTSUSY_SOURCES) -o softsusy$(EXTENSION) $(PYMICROMEGAS_LINKS)
 
 # These build rules do the following:
 #		1. In the case of spheno and softsusy, download and build the libraries
 #		2. Build a main executable for testing
 #		3. Run the main executable
 
-build_spheno: libs work/bin
-	# I pre-extracted this too since we know we will be using it.
-	# $(MAKE) -C ../Packages --file=SPHENO.makef VERSION=4.0.3
+build_softsusy: libs work/bin
+	# MicroMEGAs seems to really want v4.1.7 (which has a bug). So I've pre-extracted the source and fix the bug.
+	# $(MAKE) -C ../Packages --file=SSUSY.makef VERSION=4.1.12
 	# Make the main executable
-	$(MAKE) main=main_spheno.cpp
+	$(MAKE) main=main_softsusy.cpp
 	# Run it for good measure
-	./main_spheno mssm0.par
+	./main_softsusy mssm0.par
