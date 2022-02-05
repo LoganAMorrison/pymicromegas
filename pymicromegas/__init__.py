@@ -21,6 +21,7 @@ EwsbOrSugra = Union[EwsbParameters, SugraParameters]
 
 class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
     def __init__(self, params: EwsbParameters) -> None:
+        super().__init__()
         self._params: EwsbParameters = params
         self._initialized = False
         self._low_level.assign_val("MG1", self._params.mg1)
@@ -47,7 +48,6 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
         self._low_level.assign_val("At", self._params.at)
         self._low_level.assign_val("Ab", self._params.ab)
         self._low_level.assign_val("Al", self._params.al)
-        super().__init__()
 
     def _initialize(self):
         if not self._initialized:
@@ -365,9 +365,9 @@ class LowLevelMicromegasEwsb(_LowLevelMicromegasBase):
 
 class LowLevelMicromegasSugra(_LowLevelMicromegasBase):
     def __init__(self, params: SugraParameters) -> None:
+        super().__init__()
         self._params: SugraParameters = params
         self._initialized = False
-        super().__init__()
 
     def _initialize(self):
         if not self._initialized:
