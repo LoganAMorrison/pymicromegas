@@ -45,7 +45,7 @@ pymicromegas/pymicromegas_ewsb.cpp \
 pymicromegas/pymicromegas_results.cpp \
 pymicromegas/pymicromegas_settings.cpp \
 pymicromegas/pymicromegas_sugra.cpp \
-pymicromegas/results.cpp \
+pymicromegas/results.cpp
 
 PY_MICROMEGAS_SPHENO_SOURCES = \
 pymicromegas/pymicromegas_spheno.cpp \
@@ -68,15 +68,15 @@ PYMICROMEGAS_INCLUDES = $(PYBIND11_INC) -Ipymicromegas -I/usr/local/include -I/u
 PYMICROMEGAS_FFLAGS = -fPIC -faligned-new -fvisibility=hidden 
 
 
-all: pymicromegas spheno micromegas_api
+all: pymicromegas$(EXTENSION) spheno$(EXTENSION) micromegas$(EXTENSION) 
 
-pymicromegas:
+pymicromegas$(EXTENSION): $(SSS)
 	$(DLSET) $(CXX) -O3 -Wall -shared -std=c++11 $(PYMICROMEGAS_FFLAGS) $(PYMICROMEGAS_INCLUDES) $(PY_MICROMEGAS_SOURCES) -o pymicromegas$(EXTENSION) $(PYMICROMEGAS_LINKS)
 
-spheno: build_spheno
+spheno$(EXTENSION): main_spheno $(SSS)
 	$(DLSET) $(CXX) -O3 -Wall -shared -std=c++11 $(PYMICROMEGAS_FFLAGS) $(PYMICROMEGAS_INCLUDES) $(PY_MICROMEGAS_SPHENO_SOURCES) -o spheno$(EXTENSION) $(PYMICROMEGAS_LINKS)
 
-micromegas_api: build_spheno
+micromegas$(EXTENSION): main_spheno $(SSS)
 	$(DLSET) $(CXX) -O3 -Wall -shared -std=c++11 $(PYMICROMEGAS_FFLAGS) $(PYMICROMEGAS_INCLUDES) $(MICROMEGAS_INTERFACE_SOURCES) -o micromegas$(EXTENSION) $(PYMICROMEGAS_LINKS)
 
 # These build rules do the following:
@@ -84,7 +84,7 @@ micromegas_api: build_spheno
 #		2. Build a main executable for testing
 #		3. Run the main executable
 
-build_spheno:
+main_spheno: main_spheno.cpp
 	# I pre-extracted this too since we know we will be using it.
 	# $(MAKE) -C ../Packages --file=SPHENO.makef VERSION=4.0.3
 	# Make the main executable
