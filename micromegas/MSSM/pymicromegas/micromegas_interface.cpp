@@ -1,6 +1,7 @@
 #include "micromegas_interface.hpp"
 #include "micromegas.hpp"
 #include <fmt/format.h>
+#include <pybind11/iostream.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
@@ -12,6 +13,8 @@ PYBIND11_MODULE(micromegas, ll) { // NOLINT
   using DDExp = micromegas::DirectDetectionExperiment;
   using micromegas::Micromegas;
   using micromegas::MssmParameter;
+
+  py::add_ostream_redirect(ll, "ostream_redirect");
 
   ll.doc() = "Module providing low-level access to the micromegas library.";
 
