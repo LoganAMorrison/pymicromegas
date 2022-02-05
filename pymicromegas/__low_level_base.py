@@ -1,4 +1,5 @@
 from abc import ABCMeta, abstractmethod
+from typing import Tuple
 
 from . import micromegas as low_level
 from .micromegas import DirectDetectionAmps, DirectDetectionResults
@@ -12,7 +13,7 @@ class LowLevelMicromegasBase:
         pass
 
     @abstractmethod
-    def __initialize(self):
+    def _initialize(self):
         pass
 
     def nucleon_amplitudes_cdm1(self) -> DirectDetectionAmps:
@@ -62,7 +63,7 @@ class LowLevelMicromegasBase:
         # Neutron spin-dependent
         >>> neutron_sd_cs = pre * amps.neutron_sd[0]**2
         """
-        self.__initialize()
+        self._initialize()
         return low_level.nucleon_amplitudes_cdm1()
 
     def nucleon_amplitudes_cdm2(self) -> DirectDetectionAmps:
@@ -112,7 +113,7 @@ class LowLevelMicromegasBase:
         # Neutron spin-dependent
         >>> neutron_sd_cs = pre * amps.neutron_sd[0]**2
         """
-        self.__initialize()
+        self._initialize()
         return low_level.nucleon_amplitudes_cdm2()
 
     def direct_detection_factor(
@@ -134,7 +135,7 @@ class LowLevelMicromegasBase:
         factor: float
             Factor needed to rescale cross-section to reach exclusion level.
         """
-        self.__initialize()
+        self._initialize()
         if maxwell:
             return low_level.direct_detection_factor_maxwell(pval)
         return low_level.direct_detection_factor_shmpp(pval)
@@ -151,7 +152,7 @@ class LowLevelMicromegasBase:
         alpha: float
             Value of 1 - C.L.
         """
-        self.__initialize()
+        self._initialize()
         if maxwell:
             return low_level.direct_detection_pval_maxwell()
         return low_level.direct_detection_pval_shmpp()
@@ -303,28 +304,28 @@ class LowLevelMicromegasBase:
         """
         Name of the 1st DM particle.
         """
-        self.__initialize()
+        self._initialize()
         return low_level.cdm1()
 
     def cdm2(self) -> str:
         """
         Name of the 2nd DM particle.
         """
-        self.__initialize()
+        self._initialize()
         return low_level.cdm2()
 
     def mcdm1(self) -> float:
         """
         Mass of the 1st DM particle.
         """
-        self.__initialize()
+        self._initialize()
         return low_level.mcdm1()
 
     def mcdm2(self) -> float:
         """
         Mass of the 2nd DM particle.
         """
-        self.__initialize()
+        self._initialize()
         return low_level.mcdm2()
 
     def gmuon(self) -> float:
@@ -332,7 +333,7 @@ class LowLevelMicromegasBase:
         Returns the value of the supersymmetric contribution to the anomalous
         magnetic moment of the muon.
         """
-        self.__initialize()
+        self._initialize()
         return low_level.mssm_gmuon()
 
     def deltarho(self) -> float:
@@ -342,7 +343,7 @@ class LowLevelMicromegasBase:
         due to gluon exchange and the correction due to gluino exchange in the
         heavy gluino limit
         """
-        self.__initialize()
+        self._initialize()
         return low_level.mssm_deltarho()
 
     def bsgnlo(self) -> Tuple[float, float]:
@@ -351,7 +352,7 @@ class LowLevelMicromegasBase:
         have included some new contributions beyond the leading order that are
         especially important for high tan β. SMbsg gives the SM contribution.
         """
-        self.__initialize()
+        self._initialize()
         return low_level.mssm_bsgnlo()
 
     def bsmumu(self) -> float:
@@ -361,7 +362,7 @@ class LowLevelMicromegasBase:
         Higgs exchange. The ∆mb effect relevant for high tan β is taken into
         account.
         """
-        self.__initialize()
+        self._initialize()
         return low_level.mssm_bsmumu()
 
     def btaunu(self) -> float:
@@ -369,7 +370,7 @@ class LowLevelMicromegasBase:
         Computes the ratio between the MSSM and SM branching fractions for
         B+ → τ+ντ.
         """
-        self.__initialize()
+        self._initialize()
         return low_level.mssm_btaunu()
 
     def rl23(self) -> float:
@@ -377,7 +378,7 @@ class LowLevelMicromegasBase:
         Computes the ratio of the MSSM to SM value for Rl23 in K+ → μν due to a
         charged higgs contribution.
         """
-        self.__initialize()
+        self._initialize()
         return low_level.mssm_rl23()
 
     def d_taunu_and_munu(self) -> Tuple[float, float]:
@@ -385,7 +386,7 @@ class LowLevelMicromegasBase:
         Computes the branching ratio for D+s → τ +ντ . `dmunu` gives the
         branching ratio for D+s →μ+νμ.
         """
-        self.__initialize()
+        self._initialize()
         return low_level.mssm_d_taunu_and_munu()
 
     def masslimits(self) -> float:
@@ -395,7 +396,7 @@ class LowLevelMicromegasBase:
         masses from LEP. The constraint on the light Higgs mass from the LHC
         is included.
         """
-        self.__initialize()
+        self._initialize()
         return low_level.mssm_masslimits()
 
     def relic_density(
@@ -420,7 +421,7 @@ class LowLevelMicromegasBase:
         xf: float
           Scaled dark matter freeze-out temperature: xᶠ = mᵡ/Tᶠ.
         """
-        self.__initialize()
+        self._initialize()
         return low_level.relic_density(fast, beps)
 
     def z_invisible(self) -> bool:
@@ -431,7 +432,7 @@ class LowLevelMicromegasBase:
         one DM where the Z boson is uniquely defined by its PDG=23 and whether
         the neutral LSP is its own antiparticle or not.
         """
-        self.__initialize()
+        self._initialize()
         return low_level.z_invisible()
 
     def lsp_nlsp_lep(self) -> Tuple[float, float]:
@@ -440,7 +441,7 @@ class LowLevelMicromegasBase:
         constraints, 1 if the point is excluded and 2 if both subroutines
         dealing with Z′ constraints cannot test the given scenario.
         """
-        self.__initialize()
+        self._initialize()
         return low_level.lsp_nlsp_lep()
 
     def z_prime_limits(self) -> bool:
@@ -457,7 +458,7 @@ class LowLevelMicromegasBase:
         any other neutral particle from the odd sector which can decay into the
         LSP and a Z boson.
         """
-        self.__initialize()
+        self._initialize()
         return low_level.z_prime_limits()
 
     def monojet(self) -> float:
@@ -469,7 +470,7 @@ class LowLevelMicromegasBase:
         signal region of the 8 TeV CMS mono-jet analysis and chooses the most
         constraining one.
         """
-        self.__initialize()
+        self._initialize()
         return low_level.monojet()
 
     def mass_left_selectron(self) -> float:
