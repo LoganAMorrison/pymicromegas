@@ -13,7 +13,7 @@ def get_extension_suffix() -> str:
     proc = subprocess.Popen(
         ["python3-config", "--extension-suffix"], stdout=subprocess.PIPE
     )
-    return proc.stdout.readline().decode("ascii").strip("\n")
+    return proc.stdout.readline().decode("ascii").strip("\n")  # type: ignore
 
 
 def move_extension(ext_name: str) -> None:
