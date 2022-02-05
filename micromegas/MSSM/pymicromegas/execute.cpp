@@ -4,6 +4,7 @@
 #include "settings.hpp"
 #include "sugra.hpp"
 #include <cstdio>
+#include <pybind11/iostream.h>
 #include <pybind11/pybind11.h>
 
 namespace py = pybind11;
@@ -30,14 +31,15 @@ void execute(MicromegasResults *results, const MicromegasSettings &settings) {
 void execute(MicromegasResults *results, const MicromegasSettings &settings,
              const SugraParameters &sugra) {
   using micromegas::Micromegas;
+  py::scoped_ostream_redirect stream;
 
   if (PyErr_CheckSignals() != 0) {
     throw py::error_already_set();
   }
 
-  if (!settings.get_debug()) {
-    std::freopen("/dev/null", "w", stdout);
-  }
+  // if (!settings.get_debug()) {
+  //   std::freopen("/dev/null", "w", stdout);
+  // }
 
   try {
     const double mhf = sugra.get_mhf();
@@ -55,9 +57,9 @@ void execute(MicromegasResults *results, const MicromegasSettings &settings,
     }
   }
 
-  if (!settings.get_debug()) {
-    std::fclose(stdout);
-  }
+  // if (!settings.get_debug()) {
+  //   std::fclose(stdout);
+  // }
 }
 
 void execute(MicromegasResults *results, const MicromegasSettings &settings,
@@ -68,9 +70,9 @@ void execute(MicromegasResults *results, const MicromegasSettings &settings,
     throw py::error_already_set();
   }
 
-  if (!settings.get_debug()) {
-    std::freopen("/dev/null", "w", stdout);
-  }
+  // if (!settings.get_debug()) {
+  //   std::freopen("/dev/null", "w", stdout);
+  // }
 
   try {
     ewsb.assign_all();
@@ -83,39 +85,83 @@ void execute(MicromegasResults *results, const MicromegasSettings &settings,
       py::print(e.what());
     }
   }
-  if (!settings.get_debug()) {
-    std::fclose(stdout);
-  }
+  // if (!settings.get_debug()) {
+  //   std::fclose(stdout);
+  // }
 }
 
 MicromegasResults execute(const MicromegasSettings &settings,
                           const SugraParameters &sugra) {
   MicromegasResults results(1);
-  execute(&results, settings, sugra);
+
+  if (!settings.get_debug()) {
+    py::scoped_ostream_redirect stream(
+        std::cout,                                // std::ostream&
+        py::module_::import("sys").attr("stdout") // Python output
+    );
+    execute(&results, settings, sugra);
+  } else {
+    execute(&results, settings, sugra);
+  }
+
   return results;
 }
 
 MicromegasResults execute(const MicromegasSettings &settings,
                           const EwsbParameters &ewsb) {
   MicromegasResults results(1);
-  execute(&results, settings, ewsb);
+
+  if (!settings.get_debug()) {
+    py::scoped_ostream_redirect stream(
+        std::cout,                                // std::ostream&
+        py::module_::import("sys").attr("stdout") // Python output
+    );
+    execute(&results, settings, ewsb);
+  } else {
+    execute(&results, settings, ewsb);
+  }
+
   return results;
 }
 
 MicromegasResults execute(const MicromegasSettings &settings,
                           const std::vector<SugraParameters> &sugras) {
   MicromegasResults results(sugras.size());
-  for (const auto &sugra : sugras) { // NOLINT
-    execute(&results, settings, sugra);
+
+  if (!settings.get_debug()) {
+    py::scoped_ostream_redirect stream(
+        std::cout,                                // std::ostream&
+        py::module_::import("sys").attr("stdout") // Python output
+    );
+    for (const auto &sugra : sugras) { // NOLINT
+      execute(&results, settings, sugra);
+    }
+  } else {
+    for (const auto &sugra : sugras) { // NOLINT
+      execute(&results, settings, sugra);
+    }
   }
+
   return results;
 }
 
 MicromegasResults execute(const MicromegasSettings &settings,
                           const std::vector<EwsbParameters> &ewsbs) {
   MicromegasResults results(ewsbs.size());
-  for (const auto &ewsb : ewsbs) { // NOLINT
-    execute(&results, settings, ewsb);
+
+  if (!settings.get_debug()) {
+    py::scoped_ostream_redirect stream(
+        std::cout,                                // std::ostream&
+        py::module_::import("sys").attr("stdout") // Python output
+    );
+    for (const auto &ewsb : ewsbs) { // NOLINT
+      execute(&results, settings, ewsb);
+    }
+  } else {
+    for (const auto &ewsb : ewsbs) { // NOLINT
+      execute(&results, settings, ewsb);
+    }
   }
+
   return results;
 }
