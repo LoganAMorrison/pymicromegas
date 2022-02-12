@@ -762,9 +762,9 @@ std::pair<double, double> Micromegas::relic_density(bool fast, double beps) {
   const int f = fast ? 1 : 0;
   const double omega = darkOmega(&xf, f, beps, &err);
   if (err != 0) {
-    throw std::runtime_error(
-        "Temperature where thermal equilibrium between the DM "
-        "and SM sectors is too large");
+    // throw std::runtime_error(
+    //     "Temperature where thermal equilibrium between the DM "
+    //     "and SM sectors is too large");
   }
   return {omega, xf};
 }
